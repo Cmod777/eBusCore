@@ -1,0 +1,47 @@
+# Advanced Boiler Control System – High-Level Overview
+
+## Logical Architecture (Module 1 + Module 2)
+
+```
+                [230V AC MAIN SUPPLY]
+                        |
+            +-----------+-----------+
+            |                       |
+            v                       v
+ [Module 1 - Primary Control Unit]  [Module 2 - UPS Backup Unit]
+            |                       |
+            |                       |
+     +------+--------+        +-----+-----+
+     | Meanwell 12V  |        | Meanwell 12V  |
+     +------+--------+        +-----+-----+
+            |                       |
+   +--------+-------+         +-----+------------------+
+   |                |         |                        |
+   v                v         v                        v
+[Relay (OT BUS)] [Shelly "AF"] [Battery 12V]  [Relay UPS → DC/USB-C]
+   |                |             |                 |
+   |                v             |                 |
+   |       [Relay trigger]        |        [Step-down to 5V USB-C]
+   |                              |                 |
+   +-----> [BUS+ / BUS−] <--------+-----------------+
+              (switched)
+                  |
+               [BOILER]
+```
+
+---
+
+## Functional Summary
+
+- **Module 1** handles OT communication between the Tado controller and the boiler, with Shelly devices managing relay and power control.
+- **Module 2** provides automatic **UPS backup** to the eBUS WiFi module in case of power failure, using a sealed lead-acid battery and a relay-driven step-down to USB-C.
+- The modules are **independent but coordinated**: Module 2 activates only during blackouts and feeds Module 1’s core eBUS device.
+
+---
+
+## Next Steps
+
+- Add full wiring details: WAGO connectors, LEDs, fuses, diodes
+- Document real-time logging scripts
+- Define UPS trigger logic and fallback mode
+- Home Assistant integration and automation examples
