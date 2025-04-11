@@ -8,6 +8,14 @@
 
 ---
 
+> **Important Notice**  
+> This project is released under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.  
+> It is not certified for commercial or industrial use and must not be used in CE-compliant or production-grade environments without explicit authorization.  
+> All references to standards (EN, CEI, CE, WEEE) are for informational and educational purposes only.
+
+---
+
+
 ## 1. Introduction
 
 This document provides the complete operational and maintenance plan for the integrated control and backup system designed for domestic boiler applications, based on OpenTherm and eBUS standards.
