@@ -480,7 +480,156 @@ This manual is a controlled technical document. All modifications must be versio
 
 ---
 
-### 10.4 End of Document
+---
+
+## 11. Risk Assessment Matrix
+
+This section identifies and classifies potential risks associated with the operation, maintenance, and installation of the system.
+
+| Risk ID | Description                              | Likelihood | Severity | Risk Level | Mitigation Measures                         |
+|---------|------------------------------------------|------------|----------|------------|---------------------------------------------|
+| R-01    | Electric shock from 230V terminals        | Medium     | High     | **High**   | Use DIN breakers, label terminals, use PE   |
+| R-02    | Battery short-circuit (12V SLA)           | Low        | High     | **Medium** | Inline fuse, covered terminals, WAGO usage  |
+| R-03    | Relay fails to switch (OT BUS frozen)     | Low        | Medium   | **Low**    | Test relay semi-annually                    |
+| R-04    | eBUS module unpowered during blackout     | Low        | Medium   | **Low**    | Simulate blackouts yearly, check 5V supply  |
+| R-05    | Overheating of power modules              | Low        | Medium   | **Low**    | Use vented DIN case, thermal inspection     |
+| R-06    | Incorrect Shelly command triggers heating | Medium     | Low      | **Medium** | Use Home Assistant automation failsafes     |
+| R-07    | Wire detachment inside DIN enclosure      | Medium     | Medium   | **Medium** | Use ferrules, retighten WAGO every 6 months |
+| R-08    | Unsupervised firmware updates             | Medium     | High     | **High**   | Perform updates manually, with rollback     |
+
+> Risk levels are classified using the EN ISO 12100 methodology.
+
+---
+
+## 12. Standard Operating Procedures (SOP)
+
+The following are official Standard Operating Procedures for safe operation, maintenance, and reconfiguration of the system.
+
+Each SOP must be executed by qualified personnel only.
+
+---
+
+### SOP-01: Safe Power-Off Procedure
+
+1. Notify all users of service interruption.
+2. Disconnect 230V AC input using main DIN breaker.
+3. Confirm power-off with voltage tester at:
+   - EXIT 1 (L/N)
+   - Meanwell 12V terminals
+   - Step-down input terminals
+4. Wait at least 30 seconds before opening the DIN case.
+
+> Always test before touching.
+
+---
+
+### SOP-02: Replacing the SLA Battery
+
+1. Execute SOP-01.
+2. Disconnect WAGO terminals #3 (V+) and #4 (GND) from battery.
+3. Remove battery using insulated gloves.
+4. Check for swelling, corrosion, leaks.
+5. Install new SLA 12V battery of same spec.
+6. Reconnect WAGO terminals, tighten.
+7. Re-enable AC power and test voltage.
+
+---
+
+### SOP-03: Simulating a Blackout
+
+1. Ensure eBUS is connected via USB-C.
+2. Execute SOP-01.
+3. Confirm Red LED turns ON.
+4. Measure USB-C voltage: must stay at 4.8–5.2V.
+5. Measure battery voltage under load.
+6. Reconnect AC input and confirm Blue LED returns.
+
+---
+
+### SOP-04: Relay Switching Test (Shelly “AF”)
+
+1. Log into Shelly interface or Home Assistant.
+2. Activate relay from software.
+3. Listen for relay click and confirm BUS contact continuity.
+4. Deactivate and verify relay opens.
+5. Log result in maintenance record.
+
+---
+
+### SOP-05: Shelly Firmware Upgrade
+
+1. Back up current settings.
+2. Check manufacturer site for latest firmware.
+3. Apply update via Web UI.
+4. Monitor upgrade completion.
+5. Test post-update functionality:
+   - Relay switching
+   - AC output (Shelly “TADO”)
+   - Automation integration
+
+---
+
+Each SOP must be logged in the system maintenance record if executed.  
+Only certified installers may add or modify SOPs.
+
+
+---
+
+## 13. Warranty and Disclaimer
+
+### 13.1 Scope of Warranty
+
+This system is provided “as-is”, without any express or implied warranty of functionality, performance, or fitness for a particular purpose.  
+The author does not guarantee uninterrupted operation or fault tolerance of this design in any commercial or safety-critical application.
+
+---
+
+### 13.2 User Responsibilities
+
+The user is solely responsible for:
+
+- Correct installation and configuration
+- Verification of electrical safety measures
+- Regular inspection and maintenance as per this manual
+- Ensuring compliance with local electrical codes and directives
+- Performing all updates and replacements as recommended
+
+---
+
+### 13.3 Liability Limitation
+
+Under no circumstances shall the system designer, contributor, or maintainer be held liable for:
+
+- Damage to property, data loss, fire or electric shock
+- Loss of functionality due to incorrect modifications
+- Failures due to incompatible hardware integrations
+- Injuries or accidents during installation or maintenance
+
+---
+
+### 13.4 License
+
+All documentation and software associated with this project are distributed under the following terms:
+
+**License:** Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
+
+- **Attribution Required** → You must credit the author (GitHub username only)
+- **Non-Commercial Use Only** → Commercial use is strictly prohibited
+- **Share Alike** → Derivatives must be shared under the same license
+
+> For full license terms, visit:  
+> [https://creativecommons.org/licenses/by-nc-sa/4.0](https://creativecommons.org/licenses/by-nc-sa/4.0)
+
+---
+
+### 13.5 Final Notice
+
+By deploying, modifying, or reproducing this system, you agree to the above terms.  
+If you do not accept these conditions, do not use this project.
+
+---
+
+### 14. End of Document
 
 This concludes the technical maintenance manual for the Advanced eBUS Wi-Fi Control System and UPS Backup Module.  
 For additional documentation (wiring diagrams, datasheets, licensing), refer to the project root folder or the GitHub repository.
