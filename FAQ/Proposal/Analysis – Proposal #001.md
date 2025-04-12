@@ -2,7 +2,7 @@
 **Date:** 2025-04-11  
 **Title:** Thermal Overload Risks Inside IP65 Enclosure
 
-[![Thermal Map – Mid-Shadow, Passive + Active Cooling](FAQ/Proposal/thermal_map_ip65_midshade_passive_active_comparison.png)](FAQ/Proposal/thermal_map_ip65_midshade_passive_active_comparison.png)
+![Thermal map – mid-shade scenario](mappa_termica_ip65_midshade_passive_active_comparison.png)
 ---
 
 ## 1. Context
