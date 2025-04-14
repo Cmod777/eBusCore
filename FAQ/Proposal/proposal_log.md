@@ -85,3 +85,76 @@ Proposed Solutions:
 Next Step:
 Evaluate feasibility and hardware placement. Possibly prototype on test enclosure before full integration.
 
+---
+
+### Proposal 3 – Real-time Battery Voltage Monitoring
+
+**Date:** 2025-04-13  
+**Title:** Real-time Battery Voltage Monitoring  
+**Status:** Pending  
+**Description:**  
+The current UPS module works correctly but does **not include any live voltage monitoring** for the battery. In case of battery degradation, under-voltage, or anomalies, there would be no visual or digital feedback.  
+Adding real-time voltage monitoring would enhance system awareness, allowing detection of low battery levels, charging issues, or aging cells before failure occurs.
+
+**Proposed solution:**  
+- **Basic mode (analog):** add a **12V panel voltmeter**, connected to the battery terminals via a dedicated line or small switch, to provide direct voltage reading.
+- **Advanced mode (smart):** connect an analog voltage sensor to a free input of the **Shelly Plus Add-On**, allowing live monitoring in Home Assistant.
+- **Optional alarm:** trigger a notification in Home Assistant if the battery drops below a threshold (e.g., <11.5V).
+- The system must be **non-invasive** and must not interfere with the main power path.
+
+---
+
+### Proposal 4 – Battery Temperature Sensor
+
+**Date:** 2025-04-13  
+**Title:** Battery Temperature Sensor  
+**Status:** Pending  
+**Description:**  
+The UPS module currently does not monitor the battery temperature. However, certain battery chemistries (e.g., LiFePO4) may require controlled charging behavior depending on temperature.  
+Adding a temperature sensor allows for safer operation and can help avoid battery damage in case of charging at low or high temperatures.
+
+**Proposed solution:**  
+- Use a **temperature probe** (e.g., DS18B20 or NTC) placed near or in contact with the battery.
+- Connect the sensor to the **Shelly Plus Add-On** to allow live temperature readings inside Home Assistant.
+- Optionally implement logic in Home Assistant to disable charging or trigger a warning if temperature is out of range (e.g., below 0°C or above 45°C).
+- This sensor can also support future maintenance or diagnostics routines.
+
+---
+
+### Proposal 5 – Periodic UPS Self-Test
+
+**Date:** 2025-04-13  
+**Title:** Periodic UPS Self-Test  
+**Status:** Pending  
+**Description:**  
+The UPS system currently relies on external power loss to trigger the battery switchover. However, there is no built-in mechanism to verify the correct behavior of the UPS logic during idle periods.  
+A scheduled self-test routine would help confirm that all components (relay, battery, step-down, filters) operate correctly when needed.
+
+**Proposed solution:**  
+- Implement a **controlled simulation of power failure** once every 30 days.
+- This can be done via **smart relay or Shelly** (e.g., Shelly 1PM) that temporarily cuts 230V input to the MeanWell.
+- During the test, monitor expected behavior:
+  - Relay activation
+  - LED status changes (e.g., Using, WiFi Ready)
+  - Shelly uptime via 5V line
+- Optionally log the test result or alert if behavior does not match expected patterns.
+
+---
+
+### Proposal 6 – Quick Diagnostic Port
+
+**Date:** 2025-04-13  
+**Title:** Quick Diagnostic Port  
+**Status:** Pending  
+**Description:**  
+During maintenance or troubleshooting, manually probing key voltage points inside the UPS module can be time-consuming or unsafe due to tight wiring.  
+A dedicated, clearly labeled diagnostic port would allow fast and safe testing using a multimeter or tester without disassembling the system.
+
+**Proposed solution:**  
+- Add a **small terminal block or 2-pin sockets** (DIN-rail mountable) to expose:
+  - Battery voltage
+  - Step-down 5V output
+  - GND reference
+- Mark terminals clearly (e.g., VBAT, VOUT5V, GND).
+- Ensure ports are protected against accidental shorts (e.g., recessed terminals or fused).
+- This feature improves maintainability and encourages routine voltage checks.
