@@ -1,4 +1,4 @@
-# Advanced Boiler Control System – High-Level Overview
+# Advanced Boiler Control System – High-Level Overview EOL (End-of-Life)
 
 ## Logical Architecture (Module 1 + Module 2)
 
