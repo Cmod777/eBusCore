@@ -308,6 +308,20 @@ For this reason, particular care must be taken during wiring and soldering opera
 > Given the small pitch of the pins, it's strongly recommended to check the finished connection using a continuity tester or multimeter before powering the system.  
 > Proper wiring of the connectors is critical to avoid arc faults or damage to internal equipment, especially under high humidity or outdoor conditions.
 
+### Additional protection after wiring
+
+Once the crimping, soldering, and heatshrink insulation of the connector pins are completed,  
+it is **highly recommended** to apply a small amount of **neutral-cure RTV silicone** over the soldered area.
+
+This provides:
+- Extra electrical insulation
+- Improved mechanical stability
+- Enhanced thermal resistance
+- Additional protection against humidity and microvibrations
+
+**Note:** Always use **neutral-cure RTV silicone** to avoid potential corrosion issues (avoid acetic types).  
+Apply carefully over the joint area without obstructing the connector’s mechanical function.
+
 ### Internal Wiring Strategy and Distribution Options
 
 Given that this type of connector is designed for quick external connection/disconnection, the internal pins are not meant to be reworked frequently. To maintain the quality and reliability of the soldered connection over time, it is advisable to avoid future reintervention on the connector side.
