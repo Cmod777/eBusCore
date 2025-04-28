@@ -65,3 +65,92 @@ Wiring details:
 | Battery Negative (BAT-) | 1.3 mm² (16AWG) Black Silicone | - | Direct connection |
 
 ---
+
+
+# Section 1 - Wiring Diagram (Electrical ASCII Version)
+
+```plaintext
+┌──────────────────────────────┐
+│   230V External Connector    │
+└────────────┬─────────────────┘
+             │
+      ┌──────┴──────┐
+      │             │
+┌─────▼─────┐ ┌─────▼─────┐
+│   Earth   │ │  Neutral  │
+└─────┬─────┘ └─────┬─────┘
+      │             │
+  ┌───▼───┐     ┌───▼───┐
+  │ WAGO  │     │ WAGO  │
+  └───────┘     └───────┘
+                   │
+                   │
+                ┌──▼──┐
+                │Mean │
+                │Well │
+                │ (PE)│
+                └─────┘
+                   │
+             [AC SIDE]
+
+────────────────────────────────────────────────────
+
+┌────────────┐
+│  Phase (L) │
+└─────┬──────┘
+      │
+┌─────▼──────┐
+│  Breaker   │
+│   [B]      │ (GEWISS)
+└─────┬──────┘
+      │
+  ┌───▼───┐
+  │ WAGO  │
+  └───┬───┘
+      │
+      │
+  ┌───▼───────┐
+  │ Mean Well │
+  │ (L/N AC)  │
+  └───────────┘
+
+────────────────────────────────────────────────────
+
+             [DC SIDE - Battery Wiring]
+
+┌────────────┐       ┌────────────┐
+│  BAT+      │       │  BAT-      │
+│ (Battery)  │       │ (Battery)  │
+└─────┬──────┘       └─────┬──────┘
+      │                   │
+┌─────▼─────┐           ┌──▼────────────┐
+│   Fuse    │           │  Mean Well    │
+│   [F]     │ (5A)      │ (BAT- Input)  │
+└─────┬─────┘           └───────────────┘
+      │
+┌─────▼─────┐
+│  Switch   │
+│   [S]     │
+└─────┬─────┘
+      │
+┌─────▼─────┐
+│  Mean Well│
+│ (BAT+ In) │
+└───────────┘
+
+
+---
+
+# Notes:
+
+- `[B] = Breaker (GEWISS magnetothermal breaker)`  
+- `[F] = Fuse (5A fast-blow fuse on battery positive line)`  
+- `[S] = Manual Switch (battery positive line disconnection)`  
+- **AC Side**: Earth and Neutral connect directly to WAGO; Phase passes through breaker first.
+- **DC Side**: Battery Positive (BAT+) goes through Fuse and Switch before reaching Mean Well; Battery Negative (BAT-) connects directly.
+- **Cable sizes**:
+  - 230V lines: 2.5 mm² before breaker.
+  - 1.3 mm² allowed after protection (short distances <1m).
+  - Battery lines: 1.3 mm² (16AWG) silicone insulated.
+
+---
