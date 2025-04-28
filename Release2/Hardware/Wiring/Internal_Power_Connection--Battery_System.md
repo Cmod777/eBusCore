@@ -154,3 +154,15 @@ Wiring details:
   - Battery lines: 1.3 mm² (16AWG) silicone insulated.
 
 ---
+# Licensing Notice
+
+All original photographs, electrical schematics, and technical drawings created by the author are licensed under:
+
+**Creative Commons Attribution - NonCommercial - NoDerivatives 4.0 International (CC BY-NC-ND 4.0)**
+
+Under this license:
+- Copying, sharing, and redistribution of the material are allowed, provided that proper attribution is given to the original author (Cmod777).
+- Commercial use is strictly prohibited.
+- No modifications, transformations, or derivative works are allowed.
+
+For full license details, refer to: [https://creativecommons.org/licenses/by-nc-nd/4.0/](https://creativecommons.org/licenses/by-nc-nd/4.0/)
