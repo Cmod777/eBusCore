@@ -369,3 +369,98 @@ Before closing the enclosure and putting the system into service, it is advisabl
 - Only once all connections are verified and stable should the enclosure be sealed permanently.
 
 > This approach ensures not only safe operation, but also avoids having to reopen and rework a fully cabled and soldered connector due to preventable mistakes.
+
+---
+### Update: Connector Testing and Structural Decision
+
+Following physical testing of two connection methods —  
+direct copper pin soldering with RTV silicone protection, and crimped ferrule soldering with RTV silicone protection —  
+it was observed that both methods resulted in measured resistances between **0.1 and 0.3 Ohm**.
+
+Although these resistance values were deemed acceptable for the expected operational currents,  
+structural integrity tests indicated potential future issues under mechanical stress, such as vibrations or repeated handling.  
+There was a moderate risk of connection loosening or failure over time.
+
+Therefore, it was decided to change the connector type to **screw-type terminals** instead of soldered pin terminals.  
+The screw connection, with or without ferrule crimping, ensures a significantly higher mechanical stability and a more reliable long-term performance.
+
+Additionally, even considering a worst-case scenario of **0.5 Ohm** resistance per contact,  
+the calculated power dissipation at the maximum expected current (up to 10A) remains within safe limits:
+
+\[
+P = I^2 \times R = 10^2 \times 0.5 = 50\text{W}
+\]
+
+This dissipation is manageable given the connector's rated capacity of **25A** and the robust IP67/IP68 industrial design.
+
+Thus, the testing phase highlighted and prompted a structural modification of the connection strategy,  
+prioritizing mechanical robustness and long-term system reliability.
+---
+
+### Disclaimer on Connection Method Update
+
+The original technical specifications for the previous connection method (soldered pin terminals) are retained in this document for reference purposes.  
+However, based on the structural and electrical tests conducted, the use of the original connection method is now **officially discouraged** due to the identified potential risks over time.
+
+A new connection method, based on **screw-type terminals**, has been adopted.  
+The documentation and technical specifications will be updated accordingly to reflect the characteristics of the newly selected connectors,  
+offering greater mechanical reliability and better long-term performance margins.
+---
+
+### Deprecated Connection Method Disclaimer
+
+The original technical specifications for the previous connection method (soldered pin terminals) are retained in this document for historical and reference purposes.  
+However, based on structural and electrical testing, the original connection method is now considered **DEPRECATED** and is officially discouraged for future use.  
+Identified risks include possible mechanical weakening over time, increased sensitivity to vibrations, and potential failure under mechanical stress.
+
+---
+
+### Updated Connection Method and Specifications
+
+A new connection system based on **screw-type terminals** has been adopted to ensure superior mechanical and electrical reliability.
+
+The connectors are compliant with the specifications of the **WEIPU SP20 series** (or equivalent models), known for industrial-grade performance and protection standards.
+
+The main technical specifications of the new connectors are:
+
+- **Connection type**: Screw termination (with or without ferrule crimping).
+- **Mechanical resistance**: Improved structural stability against vibrations and mechanical stress.
+- **Current rating**: Up to **25A** continuous.
+- **Voltage rating**: Up to **380V AC**.
+- **Protection rating**: IP67/IP68 when correctly assembled.
+- **Material**: Flame-retardant and impact-resistant polyamide (PA66) with metal contact surfaces.
+- **Contact resistance**: ≤ 1 mΩ.
+- **Supported cable size**: 6 to 11.5 mm outer diameter; up to 4 mm² cross-section.
+
+These specifications are in full compliance with the datasheets of the selected **HangTon TY20** connectors, which are fully compatible with the **WEIPU SP20 series** standards.
+---
+
+### Connection Method Comparison: Old vs New
+
+| Property | Old Connection (Deprecated) | New Connection (Active) |
+|:---|:---|:---|
+| **Type** | Soldered pin + RTV silicone | Screw-type terminal (HangTon TY20 / WEIPU SP20 equivalent) |
+| **Rated Current** | ~10A (estimated safe margin) | 25A (certified rating) |
+| **Rated Voltage** | ~250V (estimated) | 380V AC (certified) |
+| **Contact Resistance** | 0.1–0.3 Ω (measured) | ≤ 1 mΩ (specified) |
+| **Mechanical Resistance** | Medium | Very High |
+| **Vibration Tolerance** | Low to Medium | High |
+| **Protection Rating** | RTV manual sealing (non-certified) | IP67/IP68 (certified) |
+| **Long-Term Reliability** | Moderate | High |
+| **Maintenance** | Difficult (requires rework) | Easy (screw re-tightening possible) |
+---
+
+### Cable Size Adjustment: Main Well Input and Output Connections
+
+Following technical testing, it was decided to retain the original **1.3 mm² cable size** for the input connection to the Mean Well power supply (from the AC mains input to the Mean Well terminal block).
+
+However, for the output side of the Mean Well (specifically for the **V+** and **V-** terminals, not for **BAT+** or **BAT-**),  
+the cable size has been **downsized to 0.8 mm²** instead of the previously planned 1.3 mm² or 0.5 mm².
+
+The decision was made for the following reasons:
+
+- **Physical fit**: The V+ and V- terminal block openings on the Mean Well are too small to reliably accommodate 1.3 mm² cables, even with minimal stripping and crimped ferrules.
+- **Mechanical strength**: 0.8 mm² cables offer a much better mechanical fit without crimping, with reduced stripping length, ensuring a solid and vibration-resistant connection.
+- **Electrical considerations**: Although the terminals can technically accept 0.5 mm² cables, opting for 0.8 mm² improves the structural robustness without any risk of overheating, considering the low current expected on these outputs.
+
+All adjustments have been made to maximize mechanical integrity and long-term reliability while maintaining full electrical performance within the system's design limits.
