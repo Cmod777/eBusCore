@@ -141,3 +141,148 @@ Under this license:
 For full license details, refer to: [https://creativecommons.org/licenses/by-nc-nd/4.0/](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 
 ---
+
+# Emergency Cooling System – Double Circuit Redundancy – Assembly and Test Report
+
+## System Overview
+
+This improved emergency cooling system introduces **full dual-path redundancy** using a **Shelly Plus Add-On**.  
+The Shelly can now:
+- Force the W1209 relay contact (K0–K1) to close.
+- **AND** directly provide stabilized 12V+ to the fan power line.
+
+This ensures that even in the event of a **complete W1209 failure** (including mechanical relay damage), **the fans will still operate correctly**.
+
+---
+
+## Logical Circuit Name
+`EmergencyCoolingDualCircuit v1.0`
+
+---
+
+## Materials Used
+
+| Component | Description |
+|:----------|:------------|
+| Shelly Plus 1 + Add-On | Smart controller for logic and backup actions |
+| 2× Schottky Diode 1N5819 | Output protection for relay and direct path |
+| Sunon EE40101S1 Fans | 12V axial fans (7300 RPM, 0.99W each) |
+| LM2596 Step-down | 13.8V to 12V stabilized converter |
+| Cables 0.8 mm² | Robust power and control lines |
+| WAGO Terminal Blocks | Organized distribution for 12V+ and GND |
+| Heat-shrink or RTV silicone | Protection for soldered diodes and critical joints |
+
+---
+
+## Functional Overview
+
+### Dual Redundant Action:
+- **First Path (Relay Assist)**:
+  - Shelly closes the W1209 K0–K1 relay contact via a **Schottky diode**.
+- **Second Path (Direct Feed)**:
+  - Shelly also provides **direct 12V stabilized power** to the fan supply line through another **Schottky diode**.
+
+**Both circuits are always ready.**  
+If the W1209 is partially functional, the Shelly helps trigger it.  
+If the W1209 is completely broken, the Shelly powers the fans directly.
+
+---
+
+## Electrical Block Diagram (ASCII)
+
+```plaintext
+            ┌───────────────┐
+            │  LM2596 12V   │
+            └──────┬────────┘
+                   │
+                   ▼
+            (Shared 12V+ Bus)
+                   │
+         ┌─────────┴─────────┐
+         │                   │
+[DIODE 1]                   [DIODE 2]
+(Assist Relay)           (Direct to Ventole)
+         │                   │
+         ▼                   ▼
+ (K0 W1209)             (WAGO V+ Ventole)
+         │                   │
+         ▼                   ▼
+(K1-NO W1209)             (Fan Positives)
+```
+
+---
+
+## Logic Description
+
+- **DIODE 1** (Assist Relay):
+  - Output from Shelly `O` to K0 W1209, protected against feedback.
+- **DIODE 2** (Direct Power):
+  - Output from Shelly `O` to WAGO 12V+ ventole, also protected.
+
+- **Fans will always activate** if either:
+  - The W1209 closes its relay (normal operation).
+  - Shelly forces activation (backup action).
+
+- **Protection is guaranteed** by two Schottky diodes:
+  - Prevents interference between paths.
+  - Ensures clean isolation even in the case of partial damage.
+
+---
+
+## Cabling Instructions
+
+- **Shelly Add-On O output** splits into two lines:
+  - One to K0 W1209 (with DIODE 1).
+  - One to WAGO 12V+ Ventole (with DIODE 2).
+- Use robust 0.8 mm² cables for both branches.
+- Protect diode solder joints with **heat-shrink tubing or RTV silicone**.
+
+---
+
+## Practical Benefits
+
+| Feature | Benefit |
+|:--------|:--------|
+| Relay assist | Extends W1209 relay life |
+| Direct feed | Full override even in case of hardware failure |
+| Dual protection | No current loops, no interference |
+| Fully passive | No firmware dependency on Shelly |
+| Scalable | Can be upgraded with further scripts or alarms |
+
+---
+
+## Tests and Results
+
+| Test | Result |
+|:-----|:-------|
+| Single relay assist | Fans activated via W1209 relay |
+| W1209 failure simulation | Fans activated via direct Shelly feed |
+| Reverse current test | No current reflows detected |
+| Redundant power continuity | No dropouts, no misfire events |
+| Thermal stability | No overheating of relay or wires |
+
+---
+
+## Emergency Logic Summary
+
+This simple addition:
+- **Just adds two diodes and two wires** to the previous setup.
+- Creates **full double redundancy**.
+- Guarantees that **fans will operate in every case**, improving overall reliability dramatically.
+
+---
+
+## Licensing Notice
+
+All original photographs, electrical schematics, and technical drawings created by the author are licensed under:
+
+**Creative Commons Attribution - NonCommercial - NoDerivatives 4.0 International (CC BY-NC-ND 4.0)**
+
+Under this license:
+- Copying, sharing, and redistribution of the material are allowed, provided that proper attribution is given to the original author (Cmod777).
+- Commercial use is strictly prohibited.
+- No modifications, transformations, or derivative works are allowed.
+
+For full license details, refer to: [https://creativecommons.org/licenses/by-nc-nd/4.0/](https://creativecommons.org/licenses/by-nc-nd/4.0/)
+
+---
