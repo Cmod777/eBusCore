@@ -15,6 +15,97 @@ Special attention has been given to wire sizes and connections:
 All systems must be able to tolerate a Mean Well output voltage of 13.8V nominal.
 
 ---
+# Relay Protection Module – Assembly and Test Report
+
+| Field | Details |
+|:------|:--------|
+| **Circuit Name** | RelayCoilProtection v1.0 |
+| **Function** | Relay coil spike suppression and voltage stabilization |
+| **Version** | 1.0 |
+| **Completion Date** | 2025-04-28 |
+| **Responsible** | [GitHub nickname] |
+
+---
+
+# Relay Protection Module – Assembly and Test Report
+
+## Module Description
+Protection circuit for relay coil consisting of:
+- **Flyback diode** (1N4007) for spike suppression.
+- **Ceramic capacitor** 0.1µF 50V for high-frequency noise filtering.
+- **Polymer capacitor** 220µF 25V for voltage stabilization and slow spike absorption.
+- **Mounted on standard perforated PCB**.
+- **Mechanical protection** with RTV silicone.
+
+> **Logical circuit name:** `RelayCoilProtection v1.0`
+
+---
+
+## Materials Used
+| Component | Description |
+|:----------|:------------|
+| 1N4007 | Flyback protection diode |
+| Ceramic capacitor | 0.1µF 50V (X7R) |
+| Polymer capacitor | 220µF 25V |
+| Perforated PCB | Standard millefori board |
+| RTV silicone | Post-soldering elastic protection |
+| Red/Black wires | Positive/negative identification |
+
+---
+
+## Assembly Procedure
+
+### 1. Component Preparation
+- Individual verification of capacitors.
+- Polarity check for diode and polymer capacitor.
+
+### 2. PCB Soldering
+- Soldered on both sides of the PCB as needed.
+- Adequate amount of solder applied to ensure electrical continuity.
+- RTV silicone applied to fragile components.
+
+### 3. Main Connections
+- **Red wire** connected to positive (V+).
+- **Black wire** connected to negative (GND).
+- Polarity respected in all connections.
+
+### 4. Installation in Final Circuit
+- Module installed inside the final structure.
+- Direct connection to relay coil terminals.
+
+---
+
+## Tests Performed
+
+| Test | Result |
+|:-----|:-------|
+| Short-circuit check | No short between V+ and GND |
+| Capacitor test | Proper charging (resistance increasing) |
+| Relay operation test | Relay activates normally without disturbances |
+| Full system test | No abnormal noise or behavior |
+
+---
+
+## Final Considerations
+- **Functionality confirmed.**
+- **Expected high reliability** due to passive filtering.
+- **Aesthetic appearance secondary to functionality** (perforated board not optimal for aesthetics).
+- **No modifications necessary** to the built circuit.
+
+---
+
+## Timestamp
+**Completion date:** 2025-04-28  
+**Approximate time:** 21:xx local time  
+**Responsible:** [Insert name or GitHub nickname]
+
+---
+
+## Notes
+- Always refer to the official datasheets of individual components before assembly or replacement.
+- Circuit name for internal documentation and future upgrades: `RelayCoilProtection v1.0`.
+
+---
 
 ## Wiring Diagram (ASCII)
 
