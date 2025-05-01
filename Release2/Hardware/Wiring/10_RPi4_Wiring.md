@@ -1,7 +1,7 @@
 # Raspberry Pi 4 Wiring Documentation
 
-The complete wiring documentation and reference files for the Raspberry Pi 4 are located in the following directory:
+The complete wiring documentation and reference files for the Raspberry Pi 4 are located at the following path:
 
-[→ eBusCore/datasheets/internal/RPI4](../../datasheets/internal/RPI4)
+[→ View RPI4 Documentation on GitHub](https://github.com/Cmod777/eBusCore/tree/principale/datasheets/internal/RPI4)
 
-This includes all relevant technical diagrams, connection details, and power supply information specific to the RPi4 hardware.
+This includes all technical diagrams, connection details, and power supply specs related to the RPi4 unit.
