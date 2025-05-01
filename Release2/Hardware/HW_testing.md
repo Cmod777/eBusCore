@@ -62,3 +62,48 @@ This document describes the test procedure for verifying correct operation of th
 4. Battery Low Relay Status:
 
 ---
+# Component: Yuasa NP7-12 Battery Test
+
+### Specifications Summary
+- **Nominal voltage**: 12 VDC
+- **Full charge voltage**: 13.5 – 13.8 V (Float)
+- **Charging current (standard)**: 2.1 A max (0.3 C)
+- **Discharge cutoff voltage**: 10.5 V (recommended minimum)
+- **Capacity**: 7.0 Ah @ 20h rate
+
+### Required Tool
+- MESTEK TRMS Digital Clamp Multimeter
+
+### Test Procedure
+
+#### 1. Voltage Check (No Load)
+- **Mode**: DC Voltage (symbol: ⎓)
+- **Red probe**: Battery positive terminal
+- **Black probe**: Battery negative terminal
+- **Expected result**: 
+  - ≥ 12.6 V = fully charged
+  - 12.0 – 12.5 V = medium charge
+  - < 11.8 V = low charge
+
+#### 2. Voltage Under Load
+- **Connect** a 12 V load (e.g. 5–10 W resistor or fan)
+- Repeat voltage measurement during operation
+- **Expected**: Voltage should stay above **11.5 V**
+
+#### 3. Current Draw (Optional)
+- **Mode**: DC Current clamp (select A⎓)
+- **Clamp around** one of the battery output wires (positive preferred)
+- **Expected draw**: Depends on connected load; must not exceed safe discharge rate (~7 A continuous)
+
+### Safety Note
+- Avoid discharging below 10.5 V
+- Recharge if voltage drops under 12.0 V when idle
+
+---
+
+### Test Results
+1. Voltage (idle): 
+2. Voltage (under load): 
+3. Load current:
+
+---
