@@ -1,4 +1,5 @@
-# DRC-60A Power Supply Test Plan (with UPS Function)
+<details>
+<summary><strong>DRC-60A Power Supply (with UPS Function)</strong></summary>
 
 This document describes the test procedure for verifying correct operation of the **Mean Well DRC-60A** DIN rail AC-DC power supply using the **MESTEK CM83E** digital clamp multimeter.
 
@@ -61,8 +62,12 @@ This document describes the test procedure for verifying correct operation of th
 3. AC OK Relay Status:  
 4. Battery Low Relay Status:
 
+</details>
+
 ---
-# Component: Yuasa NP7-12 Battery Test
+
+<details>
+<summary><strong>Component: Yuasa NP7-12 Battery Test</strong></summary>
 
 ### Specifications Summary
 - **Nominal voltage**: 12 VDC
@@ -102,13 +107,16 @@ This document describes the test procedure for verifying correct operation of th
 ---
 
 ### Test Results
-1. Voltage (idle): 
-2. Voltage (under load): 
-3. Load current:
+1. Voltage (idle):  
+2. Voltage (under load):  
+3. Load current:  
+
+</details>
 
 ---
 
-# Component: Shelly Plus 1
+<details>
+<summary><strong>Component: Shelly Plus 1</strong></summary>
 
 ### Specifications Summary
 - **DC Supply Voltage**: 12VDC ±10%, or 24–48VDC stabilized
@@ -144,13 +152,16 @@ This document describes the test procedure for verifying correct operation of th
 ---
 
 ### Test Results
-1. Input voltage: 
-2. Idle current: 
-3. Relay continuity:
+1. Input voltage:  
+2. Idle current:  
+3. Relay continuity:  
+
+</details>
 
 ---
 
-# Component: Shelly Plus Add-On
+<details>
+<summary><strong>Component: Shelly Plus Add-On</strong></summary>
 
 ### Specifications Summary
 - **Power Supply**: Provided directly via Shelly Plus 1 connector
@@ -182,12 +193,16 @@ This document describes the test procedure for verifying correct operation of th
 ---
 
 ### Test Results
-1. VCC voltage: 
-2. Analog input voltage: 
-3. Sensor continuity:
+1. VCC voltage:  
+2. Analog input voltage:  
+3. Sensor continuity:  
+
+</details>
 
 ---
-# Component: Sunon EE40101S11000U999 Fan
+
+<details>
+<summary><strong>Component: Sunon EE40101S11000U999 Fan</strong></summary>
 
 ### Specifications Summary
 - **Rated Voltage**: 12 VDC
@@ -220,12 +235,16 @@ This document describes the test procedure for verifying correct operation of th
 ---
 
 ### Test Results
-1. Input voltage: 
-2. Current draw: 
-3. Mechanical rotation/noise:
+1. Input voltage:  
+2. Current draw:  
+3. Mechanical rotation/noise:  
+
+</details>
 
 ---
-# Component: TECNOIOT LM2596 Step-Down Converter
+
+<details>
+<summary><strong>Component: TECNOIOT LM2596 Step-Down Converter</strong></summary>
 
 ### Specifications Summary
 - **Input Voltage Range**: 4–40 VDC
@@ -264,12 +283,16 @@ This document describes the test procedure for verifying correct operation of th
 ---
 
 ### Test Results
-1. Input voltage: 
-2. Output voltage: 
-3. Load test result:
+1. Input voltage:  
+2. Output voltage:  
+3. Load test result:  
+
+</details>
 
 ---
-# Component: DollaTek W1209 Temperature Controller
+
+<details>
+<summary><strong>Component: DollaTek W1209 Temperature Controller</strong></summary>
 
 ### Specifications Summary
 - **Operating voltage**: 12 VDC
@@ -320,10 +343,14 @@ This document describes the test procedure for verifying correct operation of th
 1. Input voltage:  
 2. Sensor variation observed:  
 3. Relay toggled (Y/N):  
-4. Output switching OK (Y/N):
+4. Output switching OK (Y/N):  
+
+</details>
 
 ---
-# Component: Finder 553490120040 Relay + Finder 94.74 Socket
+
+<details>
+<summary><strong>Component: Finder 553490120040 Relay + Finder 94.74 Socket</strong></summary>
 
 ### Specifications Summary
 - **Coil voltage**: 12 VDC
@@ -367,189 +394,17 @@ This document describes the test procedure for verifying correct operation of th
 ---
 
 ### Test Results
-1. Coil voltage:
-2. Relay click (audible):
-3. NO contacts closed when powered:
-4. Manual test button working:
+1. Coil voltage:  
+2. Relay click (audible):  
+3. NO contacts closed when powered:  
+4. Manual test button working:  
 
----
-# Component: Gewiss GW90025 Circuit Breaker Test
-
-### Specifications Summary
-- **Type**: Magnetothermic circuit breaker
-- **Poles**: 1P+N
-- **Rated voltage**: 230 V AC
-- **Rated current**: Typically 10–25 A (verify your specific model)
-- **Breaking capacity**: 4.5 – 6 kA (depends on variant)
-- **Function**: Automatically cuts power in case of overload or short-circuit
-
-### Required Tool
-- MESTEK TRMS Digital Clamp Multimeter
-
-### Test Procedure
-
-#### 1. Continuity Test (Breaker ON)
-- **Mode**: Continuity (symbol: sound wave or diode)
-- **Red probe**: Connect to input terminal (L)
-- **Black probe**: Connect to output terminal (L out)
-- **Expected result**: Audible beep or 0 Ω (closed circuit)
-
-#### 2. Continuity Test (Breaker OFF)
-- Toggle switch to OFF
-- **Expected result**: No beep / OL (open circuit)
-
-#### 3. Voltage Test (Live Test, Caution!)
-- **Power required**: 230 V AC
-- **Mode**: AC Voltage
-- **Red probe**: Input terminal (L)
-- **Black probe**: Neutral terminal (N)
-- **Expected input**: ~230 V
-- **Then test**: Red probe on output terminal (L out), same black probe on N
-- **Expected output**: ~230 V if ON, 0 V if OFF
-
-### Safety Note
-- Always test with appropriate personal protection
-- Do not touch live wires with bare hands
+</details>
 
 ---
 
-### Test Results
-1. Continuity (ON):  
-2. Continuity (OFF):  
-3. Voltage IN/OUT:
-
----
-# Component: DEWIN 20A DC Circuit Breaker Test
-
-### Specifications Summary
-- **Type**: DC Magnetothermal Breaker
-- **Rated current**: 20 A
-- **Operating voltage**: 12V – 250V DC
-- **Poles**: Single pole
-- **Function**: Protects DC circuits from overcurrent or short-circuit
-
-### Required Tool
-- MESTEK TRMS Digital Clamp Multimeter
-
-### Test Procedure
-
-#### 1. Continuity Test (Breaker ON)
-- **Mode**: Continuity (symbol: sound wave or diode)
-- **Red probe**: Input terminal (DC+)
-- **Black probe**: Output terminal (DC+ out)
-- **Expected result**: Beep or ~0 Ω (circuit closed)
-
-#### 2. Continuity Test (Breaker OFF)
-- Toggle switch to OFF
-- **Expected result**: No beep / OL (circuit open)
-
-#### 3. Voltage Test (Live Test, Caution!)
-- **Power required**: 13.8 V DC (or your system voltage)
-- **Mode**: DC Voltage
-- **Red probe**: Input terminal
-- **Black probe**: GND
-- **Expected input**: ~13.8 V
-- **Then test**: Red probe on output terminal, same black probe
-- **Expected output**: ~13.8 V if ON, 0 V if OFF
-
-### Safety Note
-- Never exceed rated voltage or current
-- Use only in DC circuits — not for AC systems
-
----
-
-### Test Results
-1. Continuity (ON):  
-2. Continuity (OFF):  
-3. Voltage IN/OUT:
-
----
-# Component: CABLEPELADO Bipolar Female Plug Test
-
-### Specifications Summary
-- **Type**: Bipolar straight female plug
-- **Max current**: 10 A
-- **Max voltage**: 250 V AC
-- **Protection**: IP20 (no grounding)
-- **Application**: AC 230 V plug for Raspberry official PSU or general appliances
-
-### Required Tool
-- MESTEK TRMS Digital Clamp Multimeter
-
-### Test Procedure
-
-#### 1. Continuity Check
-- **Mode**: Continuity (symbol: sound wave / diode)
-- **Red probe**: Insert into one terminal of the plug
-- **Black probe**: Touch corresponding internal wiring or device plug pin
-- **Expected result**: Multimeter beeps = internal contact is intact
-
-#### 2. Resistance Check
-- **Mode**: Ohms (symbol: Ω)
-- Measure resistance across each conductor
-- **Expected**: ~0 Ω or a very low value (cable + contact resistance)
-
-#### 3. Voltage Output (Live Test, optional if powered)
-- **Mode**: AC Voltage (symbol: ~V)
-- **Red probe**: L (Live)
-- **Black probe**: N (Neutral)
-- **Expected result**: ~230 V AC (only if connected to live power source)
-
-### Safety Note
-- Never insert probes while plug is connected to the grid unless explicitly testing live voltage
-- Always handle insulated parts during live measurements
-
----
-
-### Test Results
-1. Continuity:
-2. Resistance:
-3. Voltage output (if tested):
-
----
-# Component: HERKINDNESS DIN Rail Fuse Holder
-
-### Specifications Summary
-- **Voltage rating**: Up to 250 V AC
-- **Fuse type**: 5x20 mm glass or ceramic
-- **Max current**: Based on inserted fuse rating (typically up to 10 A)
-- **DIN rail mount**: Yes, standard 35 mm
-- **Usage**: General inline AC protection for circuits up to 250 V
-
-### Required Tool
-- MESTEK TRMS Digital Clamp Multimeter
-
-### Test Procedure
-
-#### 1. Continuity Check (Without Power)
-- **Mode**: Continuity / Ohm test (symbol: Ω or sound wave)
-- **Red probe**: One terminal of fuse holder
-- **Black probe**: Opposite terminal (other side of fuse)
-- **Expected result**: 
-  - Audible beep or ~0 Ω if fuse is intact
-  - OL or no beep = blown fuse or bad contact
-
-#### 2. Voltage Pass-Through Test (When powered)
-- **Mode**: AC Voltage (symbol: V~)
-- **Red probe**: Input terminal (from mains or breaker)
-- **Black probe**: Output terminal (load side)
-- **Expected result**: 
-  - Voltage reading should match input AC (typically ~230 V)
-  - 0 V = open fuse or incorrect wiring
-
-### Safety Note
-- Always **test with power off first**
-- Ensure proper fuse rating before applying power
-- Do not exceed rated fuse current
-
----
-
-### Test Results
-1. Continuity (unpowered): 
-2. Voltage across terminals (powered):
-
----
-# Component: Gewiss GW90025 - Circuit Breaker Test
+<details>
+<summary><strong>Component: Gewiss GW90025 - Circuit Breaker Test</strong></summary>
 
 ### Specifications Summary
 - **Type**: Automatic Circuit Breaker (MCB)
@@ -594,13 +449,159 @@ This document describes the test procedure for verifying correct operation of th
 ---
 
 ### Test Results
-1. Continuity (ON): 
-2. Continuity (OFF): 
-3. Voltage drop: 
-4. Load voltage:
+1. Continuity (ON):  
+2. Continuity (OFF):  
+3. Voltage drop:  
+4. Load voltage:  
+
+</details>
 
 ---
-# Component: Bauer DC-DC 8V–32V to 5V USB-C Converter
+
+<details>
+<summary><strong>Component: DEWIN 20A DC Circuit Breaker Test</strong></summary>
+
+### Specifications Summary
+- **Type**: DC Magnetothermal Breaker
+- **Rated current**: 20 A
+- **Operating voltage**: 12V – 250V DC
+- **Poles**: Single pole
+- **Function**: Protects DC circuits from overcurrent or short-circuit
+
+### Required Tool
+- MESTEK TRMS Digital Clamp Multimeter
+
+### Test Procedure
+
+#### 1. Continuity Test (Breaker ON)
+- **Mode**: Continuity (symbol: sound wave or diode)
+- **Red probe**: Input terminal (DC+)
+- **Black probe**: Output terminal (DC+ out)
+- **Expected result**: Beep or ~0 Ω (circuit closed)
+
+#### 2. Continuity Test (Breaker OFF)
+- Toggle switch to OFF
+- **Expected result**: No beep / OL (circuit open)
+
+#### 3. Voltage Test (Live Test, Caution!)
+- **Power required**: 13.8 V DC (or your system voltage)
+- **Mode**: DC Voltage
+- **Red probe**: Input terminal
+- **Black probe**: GND
+- **Expected input**: ~13.8 V
+- **Then test**: Red probe on output terminal, same black probe
+- **Expected output**: ~13.8 V if ON, 0 V if OFF
+
+### Safety Note
+- Never exceed rated voltage or current
+- Use only in DC circuits — not for AC systems
+
+---
+
+### Test Results
+1. Continuity (ON):  
+2. Continuity (OFF):  
+3. Voltage IN/OUT:  
+
+</details>
+
+---
+
+<details>
+<summary><strong>Component: Bipolar Female Plug Test</strong></summary>
+
+### Specifications Summary
+- **Type**: Bipolar straight female plug
+- **Max current**: 10 A
+- **Max voltage**: 250 V AC
+- **Protection**: IP20 (no grounding)
+- **Application**: AC 230 V plug for Raspberry official PSU or general appliances
+
+### Required Tool
+- MESTEK TRMS Digital Clamp Multimeter
+
+### Test Procedure
+
+#### 1. Continuity Check
+- **Mode**: Continuity (symbol: sound wave / diode)
+- **Red probe**: Insert into one terminal of the plug
+- **Black probe**: Touch corresponding internal wiring or device plug pin
+- **Expected result**: Multimeter beeps = internal contact is intact
+
+#### 2. Resistance Check
+- **Mode**: Ohms (symbol: Ω)
+- Measure resistance across each conductor
+- **Expected**: ~0 Ω or a very low value (cable + contact resistance)
+
+#### 3. Voltage Output (Live Test, optional if powered)
+- **Mode**: AC Voltage (symbol: ~V)
+- **Red probe**: L (Live)
+- **Black probe**: N (Neutral)
+- **Expected result**: ~230 V AC (only if connected to live power source)
+
+### Safety Note
+- Never insert probes while plug is connected to the grid unless explicitly testing live voltage
+- Always handle insulated parts during live measurements
+
+---
+
+### Test Results
+1. Continuity:  
+2. Resistance:  
+3. Voltage output (if tested):  
+
+</details>
+
+---
+
+<details>
+<summary><strong>Component: DIN Rail Fuse Holder</strong></summary>
+
+### Specifications Summary
+- **Voltage rating**: Up to 250 V AC
+- **Fuse type**: 5x20 mm glass or ceramic
+- **Max current**: Based on inserted fuse rating (typically up to 10 A)
+- **DIN rail mount**: Yes, standard 35 mm
+- **Usage**: General inline AC protection for circuits up to 250 V
+
+### Required Tool
+- MESTEK TRMS Digital Clamp Multimeter
+
+### Test Procedure
+
+#### 1. Continuity Check (Without Power)
+- **Mode**: Continuity / Ohm test (symbol: Ω or sound wave)
+- **Red probe**: One terminal of fuse holder
+- **Black probe**: Opposite terminal (other side of fuse)
+- **Expected result**: 
+  - Audible beep or ~0 Ω if fuse is intact
+  - OL or no beep = blown fuse or bad contact
+
+#### 2. Voltage Pass-Through Test (When powered)
+- **Mode**: AC Voltage (symbol: V~)
+- **Red probe**: Input terminal (from mains or breaker)
+- **Black probe**: Output terminal (load side)
+- **Expected result**: 
+  - Voltage reading should match input AC (typically ~230 V)
+  - 0 V = open fuse or incorrect wiring
+
+### Safety Note
+- Always **test with power off first**
+- Ensure proper fuse rating before applying power
+- Do not exceed rated fuse current
+
+---
+
+### Test Results
+1. Continuity (unpowered):  
+2. Voltage across terminals (powered):  
+
+</details>
+
+---
+
+<details>
+<summary><strong>Component: Bauer DC-DC 8V–32V to 5V USB-C Converter</strong></summary>
 
 ### Specifications Summary
 - **Input Voltage Range**: 8 – 32 VDC
@@ -639,8 +640,10 @@ This document describes the test procedure for verifying correct operation of th
 ---
 
 ### Test Results
-1. Input voltage: 
-2. Output voltage (idle): 
-3. Output voltage (under load):
+1. Input voltage:  
+2. Output voltage (idle):  
+3. Output voltage (under load):  
+
+</details>
 
 ---
