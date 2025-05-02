@@ -26,3 +26,35 @@ This event is logged as a major deviation between device labeling and real-world
 
 **Tags:**  
 `status:critical` `hardware:shelly` `power:12v` `power:24v` `input:unsupported` `test:pending`
+
+---
+## [2024-04-30 17:30] LM2596 Display Module Failure
+
+**Title:** Burned-out voltage display on LM2596 step-down module
+
+**Summary:**  
+During setup and early testing, one LM2596 step-down module (model with integrated 3-digit voltmeter) experienced partial failure: the voltage display stopped functioning, although the regulator itself continued to output the correct voltage.
+
+**Observed Behavior:**
+- The onboard digital display **no longer shows any values** (blank screen).
+- **Output voltage remains stable and correct**, as confirmed by multimeter testing.
+- No deviation in performance was detected, and the module appears to **regulate voltage correctly**.
+- The issue was **limited to the display circuit**, not the voltage regulation path.
+
+**Implications:**
+- Without onboard readings, **manual multimeter testing is required** to confirm voltage values.
+- This increases testing time and introduces a risk of configuration or wiring errors.
+- In ongoing or long-term installations, **lack of visual feedback makes monitoring inconvenient and error-prone**.
+
+**Recommendation:**  
+It is advised to **replace the module with another LM2596 model featuring a working display**.  
+In general, **choosing a step-down regulator with an integrated voltage screen is strongly preferred**, as it allows for:
+- Easier and faster configuration
+- Quick visual diagnostics
+- Fewer direct probe measurements on output terminals
+- Better usability in enclosed or remote setups
+
+**Tags:**  
+`status:partial-failure` `hardware:lm2596` `power:step-down` `display:broken` `test:manual-needed` `recommendation:replacement`
+
+---
