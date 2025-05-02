@@ -647,3 +647,274 @@ This document describes the test procedure for verifying correct operation of th
 </details>
 
 ---
+
+<details>
+<summary><strong>Component: Raspberry Pi GPIO Auxiliary Power (5V via Pin)</strong></summary>
+
+### Specifications Summary
+- **Voltage input**: 5.1 VDC (recommended)
+- **Max input current**: Depends on Pi model (typ. 2–3 A for Pi 4)
+- **Relevant GPIO Pins**:
+  - Pin 2 / 4: +5V Power In
+  - Pin 6 / 14 / 20 / 30 / 34 / 39: GND
+- **Use case**: Alternative power input, bypasses USB-C input regulator
+
+### Required Tool
+- MESTEK TRMS Digital Clamp Multimeter
+
+### Test Procedure
+
+#### 1. Voltage on 5V GPIO Pins
+- **Mode**: DC Voltage (⎓)
+- **Red probe**: GPIO Pin 2 or 4
+- **Black probe**: Any GND pin (e.g. Pin 6 or 39)
+- **Expected result**: **5.0 – 5.2 VDC**
+
+#### 2. Power-On Confirmation
+- Connect regulated 5V supply to GPIO pins
+- Raspberry Pi **should boot normally** without USB-C
+- **Check LEDs and HDMI output** for boot activity
+
+#### 3. Current Draw Test (Optional)
+- **Mode**: DC Current Clamp (A⎓)
+- **Clamp around** positive 5V wire feeding GPIO
+- **Expected draw**: Depends on Pi model and peripherals (0.6 – 2.5 A)
+
+### Safety Note
+- **Do not supply power via USB-C and GPIO simultaneously**
+- Ensure input voltage is **precisely regulated**
+- Use a **Schottky diode** in series if dual supply fallback is used
+
+---
+
+### Test Results
+1. GPIO input voltage:  
+2. Boot success (Y/N):  
+3. Current draw (if tested):  
+
+</details>
+
+---
+
+<details>
+<summary><strong>Component: XL6019 / MZHOU Step-Up Converter (12V → 24V)</strong></summary>
+
+### Specifications Summary
+- **Input Voltage Range**: ~3 – 22 VDC (XL6019) / 10 – 22 VDC (MZHOU)
+- **Output Voltage**: 24 VDC (adjustable via trimmer)
+- **Max Output Power**: 15–20 A (depending on heatsink and cooling)
+- **Use case**: Boosts 12–14 V input to stable 24 V for DC devices (e.g. Shelly)
+
+### Required Tool
+- MESTEK TRMS Digital Clamp Multimeter
+- Small flathead screwdriver (for trimmer)
+
+### Test Procedure
+
+#### 1. Input Voltage Check
+- **Mode**: DC Voltage (⎓)
+- **Red probe**: VIN+
+- **Black probe**: VIN−
+- **Expected result**: 12.0 – 14.0 V
+
+#### 2. Output Voltage Adjustment
+- **Mode**: DC Voltage (⎓)
+- **Red probe**: VOUT+
+- **Black probe**: VOUT−
+- Adjust trimmer until output reaches **24.0 – 24.2 VDC**
+- Optional: Use a **dummy load** to simulate real-world draw
+
+#### 3. Stability Under Load (Optional)
+- Connect device (e.g. Shelly) to output
+- Confirm voltage remains within range during usage
+
+### Safety Note
+- Ensure **input is always lower** than output
+- Watch for overheating during prolonged use
+- Always check trimmer position before powering sensitive devices
+
+---
+
+### Test Results
+1. Input voltage:  
+2. Output voltage (no load):  
+3. Output under load:  
+
+</details>
+
+---
+
+<details>
+<summary><strong>Component: eBus Wi-Fi USB-C Module</strong></summary>
+
+### Specifications Summary
+- **Power Supply**: 5 VDC via USB-C
+- **Interface**: Wi-Fi (MQTT or TCP), USB-C serial
+- **Functions**: eBus polling, data decoding, publishing to broker
+- **Current Draw**: Typically 0.2–0.5 A (Wi-Fi active)
+
+### Required Tool
+- MESTEK TRMS Digital Clamp Multimeter
+- USB breakout cable (for voltage probing)
+
+### Test Procedure
+
+#### 1. USB-C Voltage Check
+- **Mode**: DC Voltage (⎓)
+- **Red probe**: USB VBUS (pin 1, via breakout)
+- **Black probe**: USB GND (pin 4)
+- **Expected**: 5.0 – 5.2 VDC
+
+#### 2. Device Power-On Verification
+- Connect to power via USB-C
+- **Check LED indicator** (usually blue/red)
+- Confirm Wi-Fi broadcasts or connects to known SSID
+
+#### 3. Network/MQTT Activity
+- Connect to same network as Home Assistant
+- Ping device IP or open admin interface (if available)
+- Monitor MQTT broker: confirm messages on topics like `ebusd/`
+
+#### 4. Serial Interface (Optional)
+- Use `screen`, `minicom` o simile su `/dev/ttyUSBx`
+- Check for valid eBus data streams
+
+### Safety Note
+- USB-C power must be clean and stable
+- Avoid backpowering via USB host device and 5V rail insieme
+
+---
+
+### Test Results
+1. USB-C voltage:  
+2. LED activity:  
+3. Wi-Fi/MQTT response:  
+4. Serial data (if tested):  
+
+</details>
+
+---
+
+<details>
+<summary><strong>Component: DS18B20 / DHT22 Sensor (via Shelly Plus Add-On)</strong></summary>
+
+### Specifications Summary
+- **Supply Voltage**: 3.0 – 3.3 VDC (provided by Shelly)
+- **Interface**:
+  - **DS18B20**: 1-Wire digital
+  - **DHT22**: Digital signal with internal pull-up
+- **Output**: Temperature (and humidity for DHT22)
+
+### Required Tool
+- MESTEK TRMS Digital Clamp Multimeter
+- Shelly Plus 1 + Add-On powered and configured
+
+### Test Procedure
+
+#### 1. Power Verification
+- **Mode**: DC Voltage (⎓)
+- **Red probe**: Sensor VCC pin
+- **Black probe**: Sensor GND pin
+- **Expected result**: 3.3 VDC from Add-On board
+
+#### 2. Signal Line Continuity
+- **Mode**: Continuity / diode
+- Probe between:
+  - **Sensor DATA pin** and **Add-On DATA terminal**
+- **Expected**: Continuity present (low resistance or beep)
+
+#### 3. Sensor Recognition (via App)
+- Access Shelly Web Interface or App
+- Confirm sensor appears with valid readings
+  - **DS18B20**: Temperature in °C
+  - **DHT22**: Temperature + Humidity
+
+#### 4. Sensor Response Test
+- Warm or cool the sensor (e.g. touch or ice)
+- **Expected**: Value changes by at least ±1°C
+
+### Safety Note
+- Ensure correct wiring (VCC–DATA–GND)
+- Avoid reversing polarity – may damage sensor
+
+---
+
+### Test Results
+1. Supply voltage:  
+2. Data line continuity:  
+3. Sensor detected:  
+4. Value variation observed:  
+
+</details>
+
+---
+
+<details>
+<summary><strong>Component: Full Wiring Harness – Visual and Functional Test</strong></summary>
+
+### Overview
+This test covers a complete check of the wiring between modules, including:
+- **Power paths** (main and auxiliary)
+- **Signal continuity**
+- **Intermediary protection** (diodes, fuses, PTCs)
+- **Layout integrity** (physical routing, EMI risk, serviceability)
+
+### Required Tool
+- MESTEK TRMS Digital Clamp Multimeter
+- Optional: Inspection light, magnifier, cable tester
+
+### Test Procedure
+
+#### 1. Visual Inspection
+- Check for:
+  - Solid solder joints (no cold or cracked joints)
+  - Clean cable paths without sharp bends or tension
+  - Proper insulation and no exposed conductor
+  - WAGO/morsetti fully engaged and secure
+  - Clearly labeled or color-coded wires
+- **Expected**: No frayed wires, all connections clean and secure
+
+#### 2. Continuity & Path Testing
+- **Mode**: Continuity (soundwave or diode symbol)
+- Check all:
+  - Ground paths (GND to GND across devices)
+  - Power lines (e.g. +12V from PSU to modules)
+  - Signal lines (e.g. sensor data, relay triggers)
+- **Expected**: Beep or low resistance on all intended connections
+
+#### 3. Protection Component Check
+- **Fuses (glass/PTC)**: Confirm continuity when cold
+- **Diodi di blocco/interdizione**:
+  - **Mode**: Diode test
+  - Verify forward voltage (0.2–0.6 V typical)
+  - Confirm no continuity in reverse
+- **Expected**: All components behave per type and orientation
+
+#### 4. Voltage Drop Test
+- Under load, measure voltage across:
+  - Power input terminal vs. device VCC
+  - Diodes or fuse points (minimal drop expected)
+- **Expected**: Drop <0.3V on all passive paths under typical load
+
+#### 5. EMI and Layout Review
+- Avoid power + signal wires running parallel for long distances
+- Keep transformers or relays away from analog signal paths
+- Shield long sensor lines where needed
+
+### Best Practices
+- Avoid unshielded crossings over relay coils or PSU switching zones
+- Use ferrules or tinned ends for stranded wire into screw terminals
+- Route wires with slack for maintenance without unplugging
+
+---
+
+### Test Results
+1. Visual inspection passed (Y/N):  
+2. All path continuity confirmed (Y/N):  
+3. Diodes and fuses working (Y/N):  
+4. Voltage drop acceptable (Y/N):  
+5. EMI/layout issues found:  
+
+</details>
+
+---
