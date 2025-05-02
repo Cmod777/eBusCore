@@ -1,4 +1,6 @@
-## [2024-04-30 16:45] Power Supply Issues with Shelly Plus 1
+<details>
+<summary><strong>[2024-04-30 16:45]</strong> Power Supply Issues with Shelly Plus 1  
+<em>Tags:</em> <code>status:critical</code> <code>hardware:shelly</code> <code>power:12v</code> <code>power:24v</code> <code>input:unsupported</code> <code>test:pending</code></summary>
 
 **Title:** Unreliable 12V DC operation on Shelly Plus 1
 
@@ -24,11 +26,13 @@ The role of the 12+ and SW terminals remains undocumented and potentially obsole
 
 This event is logged as a major deviation between device labeling and real-world behavior.
 
-**Tags:**  
-`status:critical` `hardware:shelly` `power:12v` `power:24v` `input:unsupported` `test:pending`
+</details>
 
 ---
-## [2024-04-30 17:30] LM2596 Display Module Failure
+
+<details>
+<summary><strong>[2024-04-30 17:30]</strong> LM2596 Display Module Failure  
+<em>Tags:</em> <code>status:partial-failure</code> <code>hardware:lm2596</code> <code>power:step-down</code> <code>display:broken</code> <code>test:manual-needed</code> <code>recommendation:replacement</code></summary>
 
 **Title:** Burned-out voltage display on LM2596 step-down module
 
@@ -54,7 +58,27 @@ In general, **choosing a step-down regulator with an integrated voltage screen i
 - Fewer direct probe measurements on output terminals
 - Better usability in enclosed or remote setups
 
-**Tags:**  
-`status:partial-failure` `hardware:lm2596` `power:step-down` `display:broken` `test:manual-needed` `recommendation:replacement`
+</details>
+
+---
+<details>
+<summary><strong>[2024-04-30 18:10]</strong> Dependent component tests blocked by upstream Shelly failure  
+<em>Tags:</em> <code>status:blocked</code> <code>hardware:downstream</code> <code>dependency:shelly</code></summary>
+
+**Title:** Dependent component tests blocked by upstream Shelly failure
+
+**Summary:**  
+Due to the unexpected failure of Shelly Plus 1 modules to operate under 12V DC (see related event), **no downstream device tests were performed**. The anomaly in power delivery made it impossible to validate the behavior of any components relying on Shelly output or status.
+
+**Reason for test interruption:**
+- Shelly modules failed to power on under all 12V configurations.
+- Devices wired *downstream* (ventilation modules, relays, sensors, automation triggers) **never received signal, voltage, or trigger events**.
+- Running tests in this state would **produce invalid or misleading results**.
+- Waiting for further validation of Shelly behavior or stable power is necessary before retesting the chain.
+
+**Planned action:**  
+Tests will be resumed only after confirming Shelly operation with alternative power input (e.g. 24V DC via step-up module). Until then, all cascading logic is suspended.
+
+</details>
 
 ---
