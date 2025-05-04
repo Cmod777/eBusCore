@@ -1,6 +1,8 @@
 <details>
-<summary><strong>[2024-04-30 16:45]</strong> Power Supply Issues with Shelly Plus 1  
-<em>Tags:</em> <code>status:critical</code> <code>hardware:shelly</code> <code>power:12v</code> <code>power:24v</code> <code>input:unsupported</code> <code>test:pending</code></summary>
+<summary><strong>[2025-05-04 15:46]</strong> Power Supply Issues with Shelly Plus 1  
+<em>Tags:</em> <code>status:fixed</code> <code>hardware:shelly</code> <code>power:12v</code> <code>power:24v</code> <code>input:unsupported</code> <code>test:verified</code></summary>
+
+**FIXED: POWER SUPPLY ISSUE RESOLVED BY INVERTING DC POLARITY ON L/N TERMINALS (DIFFERENT FROM AC MODE). SUPPLY STABILIZED USING STEP-UP FROM 13.8 V TO 25.5 V. TEST SUCCESSFUL, FULL CASCADE POWER DELIVERY TO ALL SHELLY MODULES CONFIRMED.**
 
 **Title:** Unreliable 12V DC operation on Shelly Plus 1
 
@@ -25,7 +27,6 @@ According to the official technical documentation, **24V–48V DC is a fully sup
 The role of the 12+ and SW terminals remains undocumented and potentially obsolete.
 
 This event is logged as a major deviation between device labeling and real-world behavior.
-
 </details>
 
 ---
@@ -61,9 +62,12 @@ In general, **choosing a step-down regulator with an integrated voltage screen i
 </details>
 
 ---
+
 <details>
-<summary><strong>[2024-04-30 18:10]</strong> Dependent component tests blocked by upstream Shelly failure  
-<em>Tags:</em> <code>status:blocked</code> <code>hardware:downstream</code> <code>dependency:shelly</code></summary>
+<summary><strong>[2025-05-04 16:32]</strong> Dependent component tests blocked by upstream Shelly failure  
+<em>Tags:</em> <code>status:fixed</code> <code>hardware:downstream</code> <code>dependency:shelly</code></summary>
+
+**FIXED: DOWNSTREAM TESTS SUCCESSFULLY COMPLETED AFTER SHELLY POWER SUPPLY RESTORED VIA 13.8 V → 25.5 V STEP-UP. SYSTEM CHAIN FULLY REACTIVATED.**
 
 **Title:** Dependent component tests blocked by upstream Shelly failure
 
