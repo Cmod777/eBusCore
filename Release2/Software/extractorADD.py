@@ -6,23 +6,21 @@ from datetime import datetime
 import sys
 
 # === CONFIGURATION ===
-CREDS_PATH = 'path/to/your/creds.json'  # Replace with your credentials path
+CREDS_PATH = 'path/to/credentials.json'
 SPREADSHEET_NAME = 'Your Spreadsheet Name'
-RAW_SHEET_NAME = 'raw_data'
-METADATA_SHEET_NAME = 'metadata'
-OUTPUT_SHEET_NAME = 'output_data'
-LOG_PATH = 'extractor.log'
+SOURCE_SHEET_NAME = 'SourceSheet'
+LEGEND_SHEET_NAME = 'LegendSheet'
+TARGET_SHEET_NAME = 'ProcessedSheet'
+LOG_PATH = 'data_extraction.log'
 
-# === SETUP LOGGING ===
+# === LOGGING ===
 class Logger:
     def __init__(self, logfile):
         self.terminal = sys.stdout
         self.log = open(logfile, "a", encoding="utf-8")
-
     def write(self, message):
         self.terminal.write(message)
         self.log.write(message)
-
     def flush(self):
         self.terminal.flush()
         self.log.flush()
@@ -37,77 +35,93 @@ client = gspread.authorize(creds)
 
 # === LOAD SHEETS ===
 spreadsheet = client.open(SPREADSHEET_NAME)
-raw = spreadsheet.worksheet(RAW_SHEET_NAME)
-meta = spreadsheet.worksheet(METADATA_SHEET_NAME)
-output = spreadsheet.worksheet(OUTPUT_SHEET_NAME)
+source_sheet = spreadsheet.worksheet(SOURCE_SHEET_NAME)
+legend_sheet = spreadsheet.worksheet(LEGEND_SHEET_NAME)
+target_sheet = spreadsheet.worksheet(TARGET_SHEET_NAME)
 
 # === READ DATA ===
-raw_data = raw.get_all_values()
-legend_data = meta.get_all_values()
+source_data = source_sheet.get_all_values()
+source_headers = [h.strip() for h in source_data[0]]
+source_rows = source_data[4:]
+legend_data = legend_sheet.get_all_values()
 
-raw_headers = raw_data[0]         # Row 1: column names
-raw_rows = raw_data[4:]           # From row 5: actual data
-
-# === BUILD METADATA MAP (only included columns) ===
+# === BUILD COLUMN MAP BASED ON LEGEND ===
 column_map = {}
 for row in legend_data:
     if len(row) >= 6:
         name = row[0].strip()
-        code = row[2].strip()
-        subtitle1 = row[3].strip()
-        subtitle2 = row[4].strip()
+        code_col = row[2].strip()
+        code_arg = row[3].strip()
+        code_area = row[4].strip()
         include = row[5].strip().upper()
-        if include == "YES" and code:
+        if include == "YES" and code_col:
             column_map[name] = {
-                "code": code,
-                "subtitle1": subtitle1,
-                "subtitle2": subtitle2
+                "code": code_col,
+                "arg": code_arg,
+                "area": code_area
             }
 
-# === EXTRACT STRUCTURE ===
-headers = []
-sub1 = []
-sub2 = []
-indices = []
+# === IDENTIFY INCLUDED COLUMNS ===
+headers, args, areas, indices = [], [], [], []
+timestamp_index = None
 
-for i, name in enumerate(raw_headers):
-    if name.strip() in column_map:
-        entry = column_map[name.strip()]
-        headers.append(entry["code"])
-        sub1.append(entry["subtitle1"])
-        sub2.append(entry["subtitle2"])
+for i, name in enumerate(source_headers):
+    if name == "timestamp":
+        timestamp_index = i
+    if name in column_map:
+        info = column_map[name]
+        headers.append(info["code"])
+        args.append(info["arg"])
+        areas.append(info["area"])
         indices.append(i)
 
-print(f"Including {len(headers)} columns:")
-for h, s1, s2 in zip(headers, sub1, sub2):
-    print(f"  - {h}: {s1} / {s2}")
+print(f"Included {len(headers)} columns: {headers}")
+if timestamp_index is None:
+    print("ERROR: 'timestamp' column not found!")
+    sys.exit(1)
 
-# === EXTRACT ROWS ===
-data_rows = []
-for row in raw_rows:
-    filtered = [row[i] if i < len(row) and row[i] else "NaN" for i in indices]
-    data_rows.append(filtered)
+# === NORMALIZATION FUNCTION ===
+def normalize(val):
+    val = str(val).strip()
+    return val.replace(",", ".") if val else "NaN"
 
-print(f"Preparing to write {len(data_rows)} data rows.")
+# === FIND LAST TIMESTAMP IN TARGET SHEET ===
+target_data = target_sheet.get_all_values()
+last_timestamp = None
+if len(target_data) > 3:
+    last_row = target_data[-1]
+    if len(last_row) > 0:
+        last_timestamp = last_row[0].strip()
 
-# === EXPAND SHEET IF NEEDED ===
-total_rows = len(data_rows) + 3
-total_cols = len(headers)
+print(f"Last timestamp found in target sheet: {last_timestamp}")
 
-if total_rows > output.row_count:
-    output.add_rows(total_rows - output.row_count)
-if total_cols > output.col_count:
-    output.add_cols(total_cols - output.col_count)
+# === FILTER NEW ROWS ===
+new_rows = []
+for row in source_rows:
+    if timestamp_index >= len(row):
+        continue
+    ts = row[timestamp_index].strip()
+    if not ts:
+        continue
+    if last_timestamp is None or ts > last_timestamp:
+        filtered = [normalize(row[i]) if i < len(row) else "NaN" for i in indices]
+        new_rows.append(filtered)
 
-# === WRITE TO OUTPUT SHEET ===
-output.update(range_name="A1", values=[headers])
-output.update(range_name="A2", values=[sub1])
-output.update(range_name="A3", values=[sub2])
+print(f"New rows found to add: {len(new_rows)}")
 
-if data_rows:
-    output.update(range_name="A4", values=data_rows)
-    print(f"SUCCESS: Wrote {len(data_rows)} rows to '{OUTPUT_SHEET_NAME}'.")
+# === WRITE HEADERS AND METADATA ===
+target_sheet.update(range_name="A1", values=[headers])
+target_sheet.update(range_name="A2", values=[args])
+target_sheet.update(range_name="A3", values=[areas])
+
+# === WRITE NEW DATA ROWS ===
+if new_rows:
+    start_row = len(target_data) + 1
+    target_sheet.update(range_name=f"A{start_row}", values=new_rows)
+    print(f"SUCCESS: Added {len(new_rows)} new rows starting at row {start_row}.")
+    print("Preview of first new row:")
+    print(new_rows[0] if new_rows else "[Empty]")
 else:
-    print("WARNING: No data rows to write.")
+    print("INFO: No new rows to write.")
 
 print(f"[{datetime.now().isoformat()}] === END ===")
