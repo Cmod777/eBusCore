@@ -1,0 +1,72 @@
+#!/bin/bash
+# =============================================================
+# SYSTEM WATCHDOG SETUP (Raspberry Pi, Debian-based)
+# This script enables and configures the kernel + user-level watchdog
+# Safe to store in GitHub (no sensitive data).
+# Run step-by-step with sudo privileges.
+# =============================================================
+
+# -----------------------------
+# STEP 1: Enable the kernel watchdog in boot config
+# -----------------------------
+# For Raspberry Pi OS Bookworm or later, edit:
+#   /boot/firmware/config.txt
+# and add the following line at the end:
+
+#   dtparam=watchdog=on
+
+# Then reboot the system:
+#   sudo reboot
+
+# -----------------------------
+# STEP 2: Install the watchdog package
+# -----------------------------
+# This installs the user-level daemon that interacts with /dev/watchdog
+
+sudo apt update
+sudo apt install watchdog -y
+
+# -----------------------------
+# STEP 3: Configure the watchdog behavior
+# -----------------------------
+# This creates or edits the main config file:
+WATCHDOG_CONF="/etc/watchdog.conf"
+
+sudo cp "$WATCHDOG_CONF" "${WATCHDOG_CONF}.backup"
+
+# Use echo to write required settings into watchdog.conf (safe overwrite)
+sudo bash -c "cat > $WATCHDOG_CONF" <<EOF
+# Watchdog Configuration
+
+watchdog-device = /dev/watchdog
+ping = 8.8.8.8
+interval = 10
+logtick = 60
+realtime = yes
+priority = 1
+EOF
+
+# -----------------------------
+# STEP 4: Enable and start the watchdog service
+# -----------------------------
+
+sudo systemctl enable watchdog
+sudo systemctl restart watchdog
+
+# -----------------------------
+# STEP 5: Verification and status
+# -----------------------------
+echo "Waiting 3 seconds..."
+sleep 3
+echo
+echo "== Watchdog status =="
+sudo systemctl status watchdog --no-pager
+
+# -----------------------------
+# DONE
+# The system will now auto-reboot if:
+# - It freezes
+# - It becomes unresponsive
+# - It cannot ping 8.8.8.8 for too long
+# This script uses hardware watchdog via /dev/watchdog
+# -----------------------------
