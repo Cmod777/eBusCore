@@ -38,3 +38,18 @@ and ready to deploy with a single write.
   - Includes notes on syslog requirements, anacron, and optional systemd timer support
 
 </details>
+
+<details>
+  <summary>log-archiver.sh <code>2025-05-06</code> <code>archive</code> <code>active</code></summary>
+
+  A Bash script that runs monthly to archive and compress all `.log` files from a specified directory.  
+  It copies logs to an archive folder, gzips them, resets the original logs with a marker entry,  
+  and sends a Telegram notification upon completion.
+
+  **Configuration:**  
+  - `TOKEN` and `CHAT_ID` for Telegram  
+  - `SCRIPT_DIR` for source logs  
+  - `ARCHIVE_DIR` for storing archives  
+  - `LOG_FILE` for archiver actions
+
+</details>
