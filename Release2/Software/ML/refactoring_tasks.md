@@ -14,7 +14,7 @@
  Monitoring of RAM and CPU usage (`psutil`).
     - [x] ![Implemented in v1.3](https://img.shields.io/badge/Implemented%20in-v1.3-brightgreen)
  Suggestion (in logs) of lighter algorithms in case of high consumption (externally configurable).
-- [ ] Move all thresholds (R², correlation, SHAP, RAM/CPU) to an external configuration file (`config_pipeline.py`).
+- [x] ![Implemented in v1.3](https://img.shields.io/badge/Implemented%20in-v1.3-brightgreen) Move all thresholds (R², correlation, SHAP, RAM/CPU) to an external configuration file (`config_pipeline.py`).
 - [ ] Implement saving prediction results to a Google Sheet (externally configured).
 - [ ] Implement the management of the prediction time window (externally configurable).
 - [ ] Implement prediction reliability warnings as a percentage, based on defined metrics, with an externally configurable warning threshold.
