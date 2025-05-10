@@ -3,6 +3,104 @@
 This guide summarizes all the steps required to configure and run the **athena.py** script.
 
 ---
+## Badges
+
+![Version](https://img.shields.io/badge/version-v1.4-blue)
+![Status](https://img.shields.io/badge/status-in%20development%2Fmaintenance-yellow)
+![Testing](https://img.shields.io/badge/testing-required-red)
+![Build](https://img.shields.io/badge/build-unknown-lightgrey)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![License](https://img.shields.io/badge/license-CC%20BY--NC%204.0-lightgrey)
+![Docs](https://img.shields.io/badge/docs-incomplete-orange)
+![Stability](https://img.shields.io/badge/stability-not%20production%20ready-red)
+
+---
+
+# Overview:
+
+This script is a modular and extensible **Machine Learning pipeline** designed to:
+
+- Load time-series or tabular data from **Google Sheets**.
+- Select only the active columns declared by the user.
+- Analyze the variability and structure of the data.
+- Detect potential **biases** using correlation and SHAP values.
+- Choose and train one or more **ML models** dynamically.
+- Evaluate models using **rolling window cross-validation**.
+- Log results, warnings, and predictions locally and optionally via Telegram.
+
+---
+
+## Main Components and Flow
+
+### 1. **Input and Setup**
+- Reads command-line arguments (`argparse`) to configure behavior.
+- Connects to Google Sheets using a service account.
+- Extracts relevant column codes based on the legend sheet.
+
+### 2. **Data Analysis**
+- Calculates feature variability to suggest appropriate ML models.
+- Detects **correlations** between features and sensitive columns.
+- Uses SHAP (SHapley values) to detect **potential model bias**.
+
+### 3. **Model Selection and Training**
+- Dynamically chooses candidate algorithms based on:
+  - Data size
+  - Feature types
+  - Available memory
+- Trains models using a **rolling time-window validation** approach.
+- Tracks CPU and RAM usage during training.
+
+### 4. **Performance Evaluation**
+- Compares models based on **RMSE** and **R²** scores.
+- Stores the best-performing model per zone (column).
+- Applies a fallback mechanism if no good model is found.
+
+### 5. **Postprocessing**
+- Writes predictions to an output sheet or buffer.
+- Sends alerts or notifications for:
+  - Model bias
+  - Low accuracy
+  - Resource overuse
+
+---
+
+## Special Features
+
+- **Modular structure**: Each logical step is encapsulated in its own block or function.
+- **Bias detection**: Both statistical (correlation) and model-based (SHAP).
+- **Resource monitoring**: Avoids system saturation using thresholds.
+- **Interactive CLI**: Allows the user to choose models and set thresholds.
+- **Telegram alerts**: (if configured) send automatic warnings and summaries.
+
+---
+
+## Technologies Used
+
+- `pandas`, `numpy` for data handling
+- `scikit-learn`, `xgboost`, `lightgbm`, `catboost` for modeling
+- `shap` for explainability
+- `psutil` for system monitoring
+- `gspread` and `oauth2client` for Google Sheets API
+
+---
+
+## Typical Use Case
+
+1. A user has a structured Google Sheet with environmental or energy data.
+2. The script is run via CLI, possibly on a schedule (cron).
+3. The system analyzes, trains, and updates predictions autonomously.
+4. Warnings are logged and optionally sent to a messaging platform.
+
+---
+
+## Future Improvements (Planned)
+
+- External configuration files for thresholds and options.
+- Persistent model versioning and performance tracking.
+- Export of predictions to Google Sheets.
+- Web dashboard for result visualization.
+  
+---
 
 ## 1. Project Structure
 
