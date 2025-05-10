@@ -10,7 +10,7 @@ This guide summarizes all the steps required to configure and run the **athena.p
 ![Testing](https://img.shields.io/badge/testing-required-red)
 ![Build](https://img.shields.io/badge/build-unknown-lightgrey)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
-![License](https://img.shields.io/badge/license-CC%20BY--NC%204.0-lightgrey)
+![License Type](https://img.shields.io/badge/software%20license-CC%20BY--NC%204.0%20%2B%20custom--restriction-lightgrey)
 ![Docs](https://img.shields.io/badge/docs-incomplete-orange)
 ![Stability](https://img.shields.io/badge/stability-not%20production%20ready-red)
 
