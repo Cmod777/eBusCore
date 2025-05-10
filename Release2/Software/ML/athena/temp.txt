@@ -1,0 +1,101 @@
+# =============================================================
+#  Pre-execution Checklist — Athena Pipeline v1.4
+# =============================================================
+
+This checklist ensures the correct setup of the Athena ML pipeline before execution.  
+It applies to version **v1.4** (May 2025) and reflects the current module structure and licensing.
+
+---
+
+## 1. Python Environment
+
+- Python version: **3.10+**
+- Recommended: use a **virtual environment**
+
+---
+
+## 2. Required Packages
+
+Install all dependencies using:
+
+```bash
+pip install -r requirements.txt
+```
+
+Required packages:
+
+- `pandas`, `numpy`, `scikit-learn`, `joblib`, `tqdm`
+- `xgboost`, `lightgbm`, `catboost`
+- `shap`, `matplotlib`
+- `psutil`
+- `gspread`, `oauth2client`
+
+---
+
+## 3. Core Modules Required
+
+Ensure the following scripts exist:
+
+- `athena.py` – main pipeline
+- `cli.py` – command-line parser
+- `auth.py` – Google Sheets credentials
+- `config_pipeline.py` – thresholds and tuning variables
+- `notifier.py` – alert manager with Telegram integration
+- `data_loader.py`, `output_utils.py`, `retrain.py` – ML support logic
+
+---
+
+## 4. Google Sheets Access
+
+- A valid service account is required (`.json` credentials)
+- Spreadsheet must be shared with the service account
+- Sheets required:
+  - `legend` (with `column_code`, `include`)
+  - `input`
+  - `output` (can be renamed via CLI)
+
+---
+
+## 5. Mandatory Runtime Variables
+
+Ensure these variables are defined before model selection:
+
+- `X`, `y`, `X_test`, `y_test`
+- `output_dir` (path for saving trained models)
+- `results` (global dictionary storing performance metrics)
+
+---
+
+## 6. Custom Logic Functions Required
+
+These functions must be implemented and imported:
+
+- `load_data_and_valid(...)`
+- `analyze_sensitivity_correlation(...)`
+- `analyze_sensitivity_shap(...)`
+- `analyze_speed_and_suggest_algorithm(...)`
+- `choose_algorithms_initial(...)`
+- `load_benchmark(...)`
+- `train_and_choose_modelli(...)`
+- `postprocess_and_notify(...)`
+
+---
+
+## 7. Logging and Alerting
+
+- Logging must be initialized with `setup_logging(...)`
+- All warnings/errors must be sent through `send_alert(...)`
+- Telegram notifications must be configured if `notify=True` is used
+
+---
+
+## 8. Licensing (Reminder)
+
+This script is governed by:
+
+**Creative Commons Attribution - NonCommercial 4.0**  
+*+ Supplemental Clause: Commercial use requires prior written authorization.*
+
+---
+
+**Last updated:** May 2025 — Version **v1.4**
