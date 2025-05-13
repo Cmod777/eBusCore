@@ -15,11 +15,11 @@ This script downloads a full copy of the Google Sheets database and saves it as 
 
 - Connects once to Google Sheets using a single authentication step.
 - Automatically fetches the full sheet content.
-- Saves the raw database locally as `db_google.csv`.
+- Saves the raw database locally as `db.csv`.
 
 In previous implementations, we had separate scripts for reading and writing, each requiring its own login flow, scope settings, and error handling. This caused problems with token refresh, cell limits, quota exhaustion, and fragile automation.
 
-With `importdb.py`, **all that is gone**. This script logs in **only to read**, and dumps the entire sheet content at once.
+With `importDB.py`, **all that is gone**. This script logs in **only to read**, and dumps the entire sheet content at once.
 
 </details>
 
@@ -37,13 +37,13 @@ With `importdb.py`, **all that is gone**. This script logs in **only to read**, 
 
 ## Script 2 – `extractor.py`
 
-This script reads the local database (`db_google.csv`) and applies transformation rules from a local configuration file (`keys.yaml`) to produce a clean, structured output for machine learning.
+This script reads the local database (`db.csv`) and applies transformation rules from a local configuration file (`keys.yaml`) to produce a clean, structured output for machine learning.
 
 <details>
 <summary><strong>What does it do?</strong></summary>
 
-- Loads the raw database (`db_google.csv`)
-- Loads interpretation rules from `leggenda.yaml`
+- Loads the raw database (`db.csv`)
+- Loads interpretation rules from `keys.yaml`
 - Applies preprocessing, type casting, and column-level logic
 - Applies specific interpolation rules per column
 - Outputs a cleaned file: `db_clean.csv`
@@ -59,7 +59,7 @@ This clean dataset is the foundation for all subsequent ML or analytics steps. I
 | Script         | Purpose                                               |
 |----------------|-------------------------------------------------------|
 | `importdb.py`  | Import and save a full local copy of the Google Sheet |
-| `extractor.py` | Process and clean the local copy using `leggenda.yaml` |
+| `extractor.py` | Process and clean the local copy using `keys.yaml` |
 
 This setup removes API dependency during processing, speeds up development, and ensures a consistent offline-ready workflow.
 
@@ -73,7 +73,7 @@ Install these Python packages:
 pip install gspread oauth2client pandas pyyaml numpy
 ```
 
-You also need a Google service account and the `credentials.json` file placed in the root directory. This is required **only** by `importdb.py`, and only once at first use.
+You also need a Google service account and the `creds.json` file placed in the root directory. This is required **only** by `importDB.py`, and only once at first use.
 
 ---
 
@@ -81,7 +81,7 @@ You also need a Google service account and the `credentials.json` file placed in
 
 This data pipeline was designed to ensure reliable, fast, and redundant access to a structured version of your database originally stored on Google Sheets. The system includes:
 
-- One script to fetch the full Google Sheet and save a local copy (`importdb.py`)
+- One script to fetch the full Google Sheet and save a local copy (`importDB.py`)
 - One script to clean, format, and prepare the data using custom parsing rules (`extractor.py`)
 
 These scripts form the core of a **resilient, reproducible preprocessing workflow** intended for data science, machine learning, and analytics.
@@ -97,7 +97,7 @@ pip install gspread oauth2client pandas numpy pyyaml
 ```
 
 Also ensure:
-- A valid `credentials.json` file is in the project root for Google Sheets access.
+- A valid `creds.json` file is in the project root for Google Sheets access.
 - Python 3.7 or later is recommended.
 
 ---
@@ -106,7 +106,7 @@ Also ensure:
 
 > **Note**: This workflow is not complete without scheduling.
 
-Both `importdb.py` and `extractor.py` should be configured to run every 30 minutes using `crontab`, to ensure:
+Both `importDB.py` and `extractor.py` should be configured to run every 30 minutes using `crontab`, to ensure:
 - The local copy is refreshed with any updates from Google Sheets
 - The cleaned dataset (`db_clean.csv`) is always up to date and ready for downstream processes
 
@@ -123,7 +123,7 @@ Make sure the paths and Python interpreter are correct for your environment.
 
 ## Planned Extension: Data Replication with rsync
 
-A third script will be introduced using `rsync` to replicate the key output files (`db_google.csv` and `db_clean.csv`) to a secondary machine.
+A third script will be introduced using `rsync` to replicate the key output files (`db.csv` and `db_clean.csv`) to a secondary machine.
 
 This will provide **redundant layers of storage**:
 1. The original Google Sheet (cloud)
