@@ -1,71 +1,143 @@
-# MLpred2.py Overview
+## Overview
 
-**Date:** 2025‑05‑07  
-**Tags:** active, to‑implement, monitoring, machine‑learning
+The old scripts in this repository have been removed. They were originally built for testing and experimentation, but over time we've found a much better and cleaner solution. This new version includes just **two core scripts** that together manage the entire data pipeline in a simplified and optimized way.
+
+We no longer rely on complex permission chains, separate read/write handlers, or unstable API usage. Everything is now centralized, faster, and easier to maintain.
+
+---
+
+## Script 1 – `importDB.py`
+
+This script downloads a full copy of the Google Sheets database and saves it as a local `.csv` file.
 
 <details>
-<summary><strong>Purpose</strong></summary>
+<summary><strong>What does it do?</strong></summary>
 
-This script automates end‑to‑end forecasting of thermal comfort indices for three zones (salotto, camera, bagno) in a smart home. It:
+- Connects once to Google Sheets using a single authentication step.
+- Automatically fetches the full sheet content.
+- Saves the raw database locally as `db_google.csv`.
 
-- Extracts raw sensor & environmental data from Google Sheets  
-- Preprocesses and aggregates features (internal/external temperature, humidity, energy, device states, etc.)  
-- Trains a RandomForest model per zone  
-- Predicts comfort indices 12 hours ahead  
-- Logs results, writes outputs back to Google Sheets, and sends Telegram alerts  
-- Monitors forecast errors and triggers retraining when performance degrades  
+In previous implementations, we had separate scripts for reading and writing, each requiring its own login flow, scope settings, and error handling. This caused problems with token refresh, cell limits, quota exhaustion, and fragile automation.
+
+With `importdb.py`, **all that is gone**. This script logs in **only to read**, and dumps the entire sheet content at once.
 
 </details>
 
 <details>
-<summary><strong>Key Functions</strong></summary>
+<summary><strong>Why use a local copy?</strong></summary>
 
-1. **carica_fogli()**: Connects to Google Sheets, loads or creates worksheets  
-2. **get_codici_utili()**: Reads legenda to select feature columns dynamically  
-3. **carica_dati()**: Converts raw values, timestamp indexing, cleans and filters features  
-4. **ottimizza_random_forest()**: Hyperparameter grid‑search (n_estimators, max_depth)  
-5. **train_and_predict()**: Aggregates last N samples, predicts comfort index, computes MAE/RMSE, alerts  
-6. **deve_riaddestrare()**: Checks time‑based and error‑threshold conditions for retraining  
-7. **riaddestra_modelli()**: Retrains and caches models for each zone  
-8. **scrivi_output() / scrivi_preml2()**: Writes forecasts and error logs back to Sheets  
-9. **pulisci_preml2()**: Trims historical error log sheet for performance  
+- **No API latency**: working locally is much faster and smoother than reading from Google each time.
+- **Stability**: your local file can be versioned, archived, compared over time.
+- **Offline access**: scripts can work without internet once the file is saved.
+- **Longevity**: the Google copy can be trimmed or cleaned periodically, while the local file stays permanent.
 
 </details>
+
+---
+
+## Script 2 – `extractor.py`
+
+This script reads the local database (`db_google.csv`) and applies transformation rules from a local configuration file (`keys.yaml`) to produce a clean, structured output for machine learning.
 
 <details>
-<summary><strong>Reliability Index</strong></summary>
+<summary><strong>What does it do?</strong></summary>
 
-| Aspect                    | Status                                     |
-|---------------------------|--------------------------------------------|
-| Pipeline robustness       | ★★★★☆ (automated extraction → prediction)  |
-| Logging & monitoring      | ★★★★★ (INFO/ERROR logs + Telegram alerts)  |
-| Retraining mechanism      | ★★★★☆ (time & error‑based)                 |
-| Feature coverage          | ★★★★☆ (60+ dynamic signals)                |
-| Over‑fit risk             | ★★★☆☆ (batch RF shows MAE≈0 on training)    |
+- Loads the raw database (`db_google.csv`)
+- Loads interpretation rules from `leggenda.yaml`
+- Applies preprocessing, type casting, and column-level logic
+- Applies specific interpolation rules per column
+- Outputs a cleaned file: `db_clean.csv`
 
-Overall: **Production‑ready** for monitoring & alerting. **Caution** if used for autonomous control.
+This clean dataset is the foundation for all subsequent ML or analytics steps. It contains only valid, interpreted, numeric-ready data, aligned with your defined rules.
 
 </details>
 
-<details>
-<summary><strong>How to Use</strong></summary>
+---
 
-1. Set your credentials JSON at `CREDS_PATH` and ensure Sheets exist.  
-2. Adjust config at top (error thresholds, window size, retrain frequency).  
-3. Grant execution rights: `chmod +x MLpred2.py`.  
-4. Run manually or schedule via cron (e.g., hourly).  
-5. Review `ML_output` and `preML2` sheets for forecasts & error history.  
-6. Monitor `mlpred2.log` / `mlpred2.error.log` for diagnostics.  
+## Summary
 
-</details>
+| Script         | Purpose                                               |
+|----------------|-------------------------------------------------------|
+| `importdb.py`  | Import and save a full local copy of the Google Sheet |
+| `extractor.py` | Process and clean the local copy using `leggenda.yaml` |
 
-<details>
-<summary><strong>Future Improvements</strong></summary>
+This setup removes API dependency during processing, speeds up development, and ensures a consistent offline-ready workflow.
 
-- **Online learning**: replace batch RF with a `.partial_fit`‑capable regressor (SGD, PassiveAggressive) for real‑time updates  
-- **Advanced features**: add rolling trends, standard deviations, time‑of‑day encoding  
-- **Validation**: implement time‑series cross‑validation hold‑out to estimate out‑of‑sample error  
-- **Adaptive thresholds**: tune `ERRORE_TRIGGER_RMSE` dynamically based on seasonality  
-- **Alerting enhancements**: integrate Grafana or dashboard for visual monitoring  
+---
 
-</details>
+## Requirements
+
+Install these Python packages:
+
+```bash
+pip install gspread oauth2client pandas pyyaml numpy
+```
+
+You also need a Google service account and the `credentials.json` file placed in the root directory. This is required **only** by `importdb.py`, and only once at first use.
+
+---
+
+## System Purpose and Redundancy Strategy
+
+This data pipeline was designed to ensure reliable, fast, and redundant access to a structured version of your database originally stored on Google Sheets. The system includes:
+
+- One script to fetch the full Google Sheet and save a local copy (`importdb.py`)
+- One script to clean, format, and prepare the data using custom parsing rules (`extractor.py`)
+
+These scripts form the core of a **resilient, reproducible preprocessing workflow** intended for data science, machine learning, and analytics.
+
+---
+
+## Python Requirements
+
+Make sure the following Python modules are installed:
+
+```bash
+pip install gspread oauth2client pandas numpy pyyaml
+```
+
+Also ensure:
+- A valid `credentials.json` file is in the project root for Google Sheets access.
+- Python 3.7 or later is recommended.
+
+---
+
+## Automation (Crontab)
+
+> **Note**: This workflow is not complete without scheduling.
+
+Both `importdb.py` and `extractor.py` should be configured to run every 30 minutes using `crontab`, to ensure:
+- The local copy is refreshed with any updates from Google Sheets
+- The cleaned dataset (`db_clean.csv`) is always up to date and ready for downstream processes
+
+Example `crontab` entry:
+
+```cron
+*/30 * * * * /usr/bin/python3 /home/youruser/scripts/importdb.py
+*/30 * * * * /usr/bin/python3 /home/youruser/scripts/extractor.py
+```
+
+Make sure the paths and Python interpreter are correct for your environment.
+
+---
+
+## Planned Extension: Data Replication with rsync
+
+A third script will be introduced using `rsync` to replicate the key output files (`db_google.csv` and `db_clean.csv`) to a secondary machine.
+
+This will provide **redundant layers of storage**:
+1. The original Google Sheet (cloud)
+2. The local copy on the primary machine
+3. A synchronized clone on a secondary local machine
+
+This design minimizes the risk of data loss and ensures resilience across hardware or network failures.
+
+---
+
+## License
+
+All scripts in this repository are provided under:
+
+**Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0) + custom (see LICENSE.md)**
+
+You may copy, use, and adapt the software for **non-commercial purposes only**, with proper credit to the original author (Cmod777). Commercial redistribution, resale, or inclusion in proprietary platforms is strictly prohibited.
